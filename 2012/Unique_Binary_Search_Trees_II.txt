@@ -1,0 +1,62 @@
+/**
+* Definition for binary tree
+* struct TreeNode {
+*     int val;
+*     TreeNode *left;
+*     TreeNode *right;
+*     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+* };
+*/
+
+class Solution {
+public:
+
+    vector<TreeNode *> ans[100];
+
+    TreeNode *snapshot(TreeNode *root) {
+        if (!root) {
+            return NULL;
+        }
+        TreeNode *n = new TreeNode(root->val);
+        n->left = snapshot(root->left);
+        n->right = snapshot(root->right);
+        return n;
+    }
+
+    int color(TreeNode *node, int i) {
+        if (!node) {
+            return i;
+        }
+        i = color(node->left, i);
+        node->val = i++;
+        return color(node->right, i);
+    }
+
+    vector<TreeNode *> generateTrees(int n) {
+// Start typing your C/C++ solution below
+// DO NOT write int main() function
+        if (ans[n].size() > 0) {
+            return ans[n];
+        }
+        if (n == 0) {
+            ans[0].push_back(NULL);
+            return ans[0];
+        }
+        for (int i = 0; i <= n - 1; ++i) {
+            vector<TreeNode *> left = generateTrees(i);
+            vector<TreeNode *> right = generateTrees(n - 1 - i);
+            TreeNode node(0);
+            for (int l = 0; l < left.size(); ++l) {
+                for (int r = 0; r < right.size(); ++r) {
+                    node.left = left[l];
+                    node.right = right[r];
+                    ans[n].push_back(snapshot(&node));
+                }
+            }
+        }
+        for (int i = 0; i < ans[n].size(); ++i) {
+            color(ans[n][i], 1);
+        }
+        return ans[n];
+    }
+};

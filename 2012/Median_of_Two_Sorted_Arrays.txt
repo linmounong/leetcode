@@ -1,0 +1,50 @@
+class Solution {
+public:
+
+    int *_A, *_B;
+    int _m, _n;
+
+// switch == false to get max, vise versa
+    int get_max_or_min(int aidx, int bidx, bool swtich) {
+        if (aidx < 0 || aidx >= _m) {
+            return _B[bidx];
+        } else if (bidx < 0 || bidx >= _n) {
+            return _A[aidx];
+        } else {
+            return ((_A[aidx] > _B[bidx]) ^ swtich)? _A[aidx]: _B[bidx];
+        }
+    }
+
+    double findMedianSortedArrays(int A[], int m, int B[], int n) {
+// Start typing your C/C++ solution below
+// DO NOT write int main() function
+        _A = A;
+        _B = B;
+        _m = m;
+        _n = n;
+        int n2del = (m + n) / 2;
+        int aidx = m;
+        int bidx = n;
+        while (n2del) {
+            int n2del_now = (n2del + 1) / 2;
+            if (aidx - n2del_now < 0) {
+                bidx -= n2del_now;
+            } else if (bidx - n2del_now < 0) {
+                aidx -= n2del_now;
+            } else {
+                if (A[aidx - n2del_now] > B[bidx - n2del_now]) {
+                    aidx -= n2del_now;
+                } else {
+                    bidx -= n2del_now;
+                }
+            }
+            n2del -= n2del_now;
+        }
+        if ((m + n) & 1) {
+            return get_max_or_min(aidx - 1, bidx - 1, false);
+        } else {
+            return (get_max_or_min(aidx - 1, bidx - 1, false) +
+                    get_max_or_min(aidx, bidx, true)) / 2.0;
+        }
+    }
+};

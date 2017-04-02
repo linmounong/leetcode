@@ -1,0 +1,26 @@
+class Solution {
+public:
+    vector<string> anagrams(vector<string> &strs) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int size_strs = strs.size();
+        vector<string> clone_strs = strs;
+        map<string, int> hash_map;
+        vector<string> result;
+        
+        // Hash the strings and push them into map
+        for (int index = 0; index < size_strs; ++ index)
+        {
+            sort(clone_strs[index].begin(), clone_strs[index].end());
+            hash_map[clone_strs[index]]++;
+        }
+        
+        for (int i = 0; i < size_strs; ++i) {
+            if (hash_map[clone_strs[i]] >= 2) {
+                result.push_back(strs[i]);
+            }
+        }
+        
+        return result;
+    }
+};

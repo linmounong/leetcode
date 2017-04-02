@@ -1,0 +1,49 @@
+class Solution {
+public:
+    string multiply(string num1, string num2) {
+// Start typing your C/C++ solution below
+// DO NOT write int main() function
+        int l1 = num1.size();
+        int l2 = num2.size();
+        if ((l1 == 1 && num1[0] == '0') || (l2 ==1 && num2[0] == '0')) {
+            return "0";
+        }
+        int len = l1 + l2;
+        int *n1 = new int[l1];
+        int *n2 = new int[l2];
+        int *out = new int[len];
+        for (int i = 0; i < l1; ++i) {
+            n1[l1-i-1] = num1[i] - '0';
+        }
+        for (int i = 0; i < l2; ++i) {
+            n2[l2-i-1] = num2[i] - '0';
+        }
+        for (int i = 0; i < len; ++i) {
+            out[i] = 0;
+        }
+        for (int i = l1 - 1; i >= 0; --i) {
+            for (int j = l2 - 1; j >= 0; --j) {
+                out[i + j] += n1[i] * n2[j];
+            }
+        }
+        for (int i = 0; i < len - 1; ++i) {
+            if (out[i] >= 10) {
+                out[i + 1] += out[i] / 10;
+                out[i] %= 10;
+            }
+        }
+
+        int end = len - 1;
+        while (0 == out[end]) {
+            end--;
+        }
+        char *str = new char[end + 2];
+        str[end + 1] = '0';
+        for (int j = 0; j <= end; ++j) {
+            str[end - j] = out[j] + '0';
+        }
+        return str;
+    }
+};
+Multiply Strings
+

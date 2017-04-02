@@ -1,0 +1,13 @@
+class Solution {
+	public:
+
+		string intToRoman(int num) {
+			// Start typing your C/C++ solution below
+			// DO NOT write int main() function   
+			string T1[] = {"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
+			string T2[] = {"", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"};
+			string T3[] = {"", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"};
+			string T4[] = {"", "M", "MM", "MMM"};
+			return T4[num/1000%10]+T3[num/100%10]+T2[num/10%10]+T1[num%10];
+		}
+};

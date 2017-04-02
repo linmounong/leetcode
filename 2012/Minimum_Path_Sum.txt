@@ -1,0 +1,29 @@
+#define F(x,y) (x*n+y)
+class Solution {
+public:
+    int minPathSum(vector<vector<int> > &grid) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        if (grid.empty() || grid[0].empty()) {
+            return 0;
+        }
+        int m = grid.size();
+        int n = grid[0].size();
+        int *count = new int[m * n];
+        count[0] = grid[0][0];
+        for (int i = 1; i < n; ++i) {
+            count[i] = count[i - 1] + grid[0][i];
+        }
+        for (int i = n; i < m * n; ++i) {
+            int tmp = grid[i / n][i % n];
+            if (i % n == 0) {
+                count[i] = count[i - n] + tmp;
+            } else {
+                int a1 = count[i - n];
+                int a2 = count[i - 1];
+                count[i] = (a1 < a2? a1: a2) + tmp;
+            }
+        }
+        return count[n * m - 1];
+    }
+};

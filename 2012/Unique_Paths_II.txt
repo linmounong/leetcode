@@ -1,0 +1,25 @@
+class Solution {
+public:
+
+    int foo(int i, int j, vector<vector<int> > &obs, vector<vector<int> > &ans) {
+        if (i < 0 || j < 0 || obs[i][j]) {
+            return 0;
+        }
+        if (ans[i][j] >= 0) {
+            return ans[i][j];
+        }
+        return (ans[i][j] = foo(i - 1, j, obs, ans) + foo(i, j - 1, obs, ans));
+    }
+
+    int uniquePathsWithObstacles(vector<vector<int> > &obstacleGrid) {
+// Start typing your C/C++ solution below
+// DO NOT write int main() function
+        if (obstacleGrid[0][0]) {
+            return 0;
+        }
+        vector<vector<int> > ans(100, vector<int>(100, -1));
+        ans[0][0] = 1;
+        return foo(obstacleGrid.size() - 1, obstacleGrid[0].size() - 1,
+				obstacleGrid, ans);
+    }
+};

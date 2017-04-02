@@ -1,0 +1,45 @@
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int> > &matrix) {
+// Start typing your C/C++ solution below
+// DO NOT write int main() function
+        vector<int> v;
+        int m = matrix.size();
+        if (m == 0) {
+            return v;
+        }
+        int n = matrix[0].size();
+        if (n == 0) {
+            return v;
+        }
+
+        int x = 0, y = -1;
+        int lenx = m - 2;
+        int leny = n;
+        int i = 0;
+        int total = m * n;
+        while ( i < total ) {
+            for (int j = 0; i < total && j < leny; ++j, ++i) {
+                ++y;
+                v.push_back(matrix[x][y]);
+            }
+            for (int j = 0; i < total && j < lenx; ++j, ++i) {
+                ++x;
+                v.push_back(matrix[x][y]);
+            }
+            ++x;
+            for (int j = 0; i < total && j < leny; ++j, ++i) {
+                v.push_back(matrix[x][y]);
+                --y;
+            }
+            ++y;
+            for (int j = 0; i < total && j < lenx; ++j, ++i) {
+                --x;
+                v.push_back(matrix[x][y]);
+            }
+            lenx -= 2;
+            leny -= 2;
+        }
+        return v;
+    }
+};

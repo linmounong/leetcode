@@ -1,0 +1,28 @@
+public:
+bool isValid(string s) {
+// Start typing your C/C++ solution below
+// DO NOT write int main() function
+    vector<char> v;
+    map<char, char> m;
+    m[')'] = '(';
+    m['}'] = '{';
+    m[']'] = '[';
+    for (int i = 0; i < s.size(); ++i) {
+        char c = s[i];
+        switch (c) {
+        case '(':
+        case '{':
+        case '[':
+            v.push_back(c);
+            break;
+        default:
+            if (v.empty() || v.back() != m[c]) {
+                return false;
+            }
+            v.pop_back();
+            break;
+        }
+    }
+    return v.empty();
+}
+};

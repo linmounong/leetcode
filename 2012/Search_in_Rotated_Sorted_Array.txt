@@ -1,0 +1,46 @@
+class Solution {
+public:
+    int bin(int A[], int n, int target) {
+        int l = 0, r = n - 1, mid;
+        while (l <= r) {
+            int mid = (l + r) / 2;
+            if (A[mid] == target) {
+                return mid;
+            } else if (A[mid] > target) {
+                r = mid - 1;
+            } else {
+                l = mid + 1;
+            }
+        }
+        return -1;
+    }
+
+    int search(int A[], int n, int target) {
+// Start typing your C/C++ solution below
+// DO NOT write int main() function
+        if (n == 0) {
+            return -1;
+        }
+        if (n == 1) {
+            return (A[0] == target)? 0: -1;
+        }
+        int mid = n / 2;
+        int a, b;
+        if (A[mid] == target) {
+            return mid;
+        } else if (A[mid] > A[0]) {
+            a = bin(A, mid, target);
+            b = search(A + mid, n - mid, target);
+        } else {
+            a = search(A, mid, target);
+            b = bin(A + mid, n - mid, target);
+        }
+        if (a >= 0) {
+            return a;
+        }
+        if (b >= 0) {
+            return b + mid;
+        }
+        return -1;
+    }
+};

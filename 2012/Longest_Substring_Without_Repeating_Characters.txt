@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int len = s.size();
+        if (len <= 1) {
+            return len;
+        }
+        int last[26];
+        for (int i = 0; i < 26; ++i) {
+            last[i] = -1;
+        }
+        int maxlen = 0;
+        int left = -1;
+        for (int i = 0; i < len; ++i) {
+            int idx = s[i] - 'a';
+            int tmp = last[idx];
+            last[idx] = i;
+            if (tmp > left) {
+                left = tmp;
+            }
+            if (maxlen < i - left) {
+                maxlen = i - left;
+            }
+        }
+        return maxlen;
+    }
+};

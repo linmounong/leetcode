@@ -1,0 +1,48 @@
+class Solution {
+public:
+    vector<string> fullJustify(vector<string> &words, int L) {
+// Start typing your C/C++ solution below
+// DO NOT write int main() function
+        vector<string> v;
+        int n = words.size();
+        if (n == 0) {
+            return v;
+        }
+        int used = -1;
+        int last = 0;
+        for (int i = 0; i < n; ++i) {
+            if (i < n && used + words[i].size() + 1 <= L) {
+                used += words[i].size() + 1;
+                continue;
+            }
+            string s(L, ' ');
+            int remain = L - used;
+            int ninter = i - last - 1;
+            if (ninter == 0) {
+                ninter = 1;
+            }
+            int avg = remain / ninter;
+            remain %= ninter;
+            int idx = 0;
+            for (int j = last; j < i; ++j) {
+                for (int k = 0; k < words[j].size(); ++k) {
+                    s[idx++] = words[j][k];
+                }
+                idx += avg + (remain-- > 0) + 1;
+            }
+            v.push_back(s);
+            last = i;
+            used = words[i].size();
+        }
+        string s(L, ' ');
+        int idx = 0;
+        for (int i = last; i < n; ++i) {
+            for (int j = 0; j < words[i].size(); ++j) {
+                s[idx++] = words[i][j];
+            }
+            ++idx;
+        }
+        v.push_back(s);
+        return v;
+    }
+};

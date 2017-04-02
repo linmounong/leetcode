@@ -1,0 +1,48 @@
+class Solution {
+public:
+    vector<vector<int> > V;
+    vector<int> v;
+    vector<int> *p_num;
+    int next[1000];
+
+    void foo() {
+        if (next[0] == 0) {
+            V.push_back(v);
+            return;
+        }
+        int i = 0;
+        while (next[i]) {
+            int tmp = next[i];
+            v.push_back((*p_num)[tmp - 1]);
+            next[i] = next[next[i]];
+            foo();
+            next[i] = tmp;
+            v.pop_back();
+            i = next[i];
+        }
+    }
+
+    Solution() {
+        for(int i = 0; i < 1000; ++i) {
+            next[i] = i + 1;
+        }
+        next[999] = 0;
+    }
+
+    vector<vector<int> > permute(vector<int> &num) {
+// Start typing your C/C++ solution below
+// DO NOT write int main() function
+        int n = num.size();
+        V.clear();
+        v.clear();
+        if (n == 0) {
+            return V;
+        }
+//sort(num.begin(), num.end());
+        next[n] = 0;
+        p_num = &num;
+        foo();
+        next[n] = n + 1;
+        return V;
+    }
+};

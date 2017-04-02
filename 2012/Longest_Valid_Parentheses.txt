@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int longestValidParentheses(string s) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        vector<int> v;
+        int n = s.size();
+        if (n == 0) {
+            return 0;
+        }
+        int max = 0, left = -1;
+        for (int i = 0; i < n; ++i) {
+            if (s[i] == '(') {
+                v.push_back(i);
+            } else {
+                if (v.empty()) {
+                    left = i;
+                } else {
+                    v.pop_back();
+                    int tmp;
+                    if (v.empty()) {
+                        tmp = i - left;
+                    } else {
+                        tmp = i - v.back();
+                    }
+                    if (max < tmp) {
+                        max = tmp;
+                    }
+                }
+            }
+        }
+        return max;
+    }
+};

@@ -1,0 +1,35 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool ret;
+    int count(TreeNode *node) {
+            return 0;
+        }
+        int l = count(node->left);
+        int r = count(node->right);
+            return 0;
+        }
+        int max = l > r? l: r;
+        if (max + max - l - r > 1) {
+            ret = false;
+            return 0;
+        }
+        return max + 1;       
+    }
+    
+    bool isBalanced(TreeNode *root) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        ret = true;
+        count(root);
+        return ret;
+    }
+};

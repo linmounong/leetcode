@@ -1,0 +1,47 @@
+class Solution {
+public:
+    string minWindow(string S, string T) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int count[256] = {};
+        int appeared = 0;
+        deque<int> q;
+        bool mask[256] = {};
+        for (int i = 0; i < T.size(); ++i) {
+            --count[T[i]];
+            mask[T[i]] = true;
+        }
+        for (int i = 0; i < 256; ++i) {
+            if (mask[i]) {
+                --appeared;
+            }
+        }
+        int minlen = 0x7fffffff;
+        int pos = -1;
+        for (int i = 0; i < S.size(); ++i) {
+            char c = S[i];
+            if (mask[c]) {
+                q.push_back(i);
+                if (0 == ++count[c]) {
+                    ++appeared;
+                };
+                for (char last = S[q.front()]; count[last] >= 1; last = S[q.front()]) {
+                    --count[last];
+                    q.pop_front();
+                }
+                if (0 == appeared) {
+                    int len = i - q.front() + 1;
+                    if (len < minlen) {
+                        minlen = len;
+                        pos = q.front();
+                    }
+                }
+            }
+        }
+        if (-1 == pos) {
+            return "";
+        } else {
+            return S.substr(pos, minlen);
+        }
+    }
+};

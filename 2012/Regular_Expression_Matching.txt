@@ -1,0 +1,61 @@
+class Solution {
+public:
+    vector<int> *next;
+    int slen;
+    int plen;
+    const char *s, *p;
+
+    bool match(int i, int j) {
+        return (i == slen + 1 && j == plen + 1) ||
+               (i <= slen && j <= plen && (s[i - 1] == p[j - 1] || p[j - 1] == '.'));
+    }
+
+    bool star(int i) {
+        return i <= plen && p[i - 1] == '*';
+    }
+
+    void gennext() {
+        for (int i = 0; i <= plen; ++i) {
+            int n = i + 1;
+            if (star(n)) {
+                next[i].push_back(i);
+                ++n;
+            }
+            while (n <= plen) {
+                if (star(n + 1)) {
+                    next[i].push_back(n);
+                    n += 2;
+                } else {
+                    break;
+                }
+            }
+            next[i].push_back(n);
+        }
+    }
+
+    bool foo(int sidx, int pidx) {
+        if (sidx > slen || pidx > plen) {
+            return sidx > slen && pidx > plen;
+        }
+        for (int i = 0; i < next[pidx].size(); ++i) {
+            int n = next[pidx][i];
+            if (match(sidx + 1, n) && foo(sidx + 1, n)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool isMatch(const char *_s, const char *_p) {
+// Start typing your C/C++ solution below
+// DO NOT write int main() function
+        s = _s;
+        p = _p;
+        plen = strlen(p);
+        slen = strlen(s);
+        vector<int> n[plen + 1];
+        next = n;
+        gennext();
+        return foo(0, 0);
+    }
+};

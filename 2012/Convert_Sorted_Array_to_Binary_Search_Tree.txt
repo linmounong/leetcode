@@ -1,0 +1,50 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int last;
+    int idx;
+    vector<int> nums;
+
+    void inorder(TreeNode **node, int d) {
+        if (d == 0) {
+            if (last) {
+                last--;
+                *node = new TreeNode(nums[idx++]);
+            }
+            return;
+        }
+        *node = new TreeNode(0); 
+        inorder(& (*node)->left, d - 1);
+        (*node)->val = nums[idx++];
+        inorder(& (*node)->right, d - 1);
+    }
+
+    int foo(int n, int *remain) {
+        int i = 0;
+        while (n > (1 << i)) {
+            n -= 1 << i;
+            ++i;
+        }
+        *remain = n;
+        return i;
+    }
+
+    TreeNode *sortedArrayToBST(vector<int> &num) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        nums = num;
+        idx = 0;
+        int n = num.size();
+        TreeNode *head = NULL;
+        inorder(&head, foo(n, &last));
+        return head;
+    }
+};

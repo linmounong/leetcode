@@ -1,0 +1,70 @@
+int cal_line(int *height, int n) {
+    vector<int> v;
+    int l[n], r[n];
+    for (int i = 0; i < n; ++i) {
+            v.pop_back();
+        }
+        if (v.empty()) {
+            l[i] = -1;
+        } else {
+            l[i] = v.back();
+        }
+        v.push_back(i);
+    }
+    v.clear();
+    for (int i = n - 1; i >= 0; --i) {
+            v.pop_back();
+        }
+        if (v.empty()) {
+            r[i] = n;
+        } else {
+            r[i] = v.back();
+        }
+        v.push_back(i);
+    }
+    int max = 0;
+    for (int i = 0; i < n; ++i) {
+        int tmp = (r[i] - l[i] - 1) * height[i];
+        if (tmp > max) {
+            max = tmp;
+        }
+    }
+    return max;
+}
+
+class Solution {
+public:
+    int maximalRectangle(vector<vector<char> > &matrix) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        if (matrix.empty()) {
+            return 0;
+        }
+        int m = matrix.size();
+        int n = matrix[0].size();
+        if (n == 0) {
+            return 0;
+        }
+        int height[n];
+        for (int i=  0; i < n; ++i) {
+            height[i] = 0;
+        }
+        int max = 0;
+        for (int line = 0; line < m; ++line) {
+            vector<char> &v = matrix[line];
+            for (int i = 0; i < n; ++i) {
+                if (v[i] == '0') {
+                    height[i] = 0;
+                } else {
+                    ++height[i];
+                }
+            }
+            int tmp = cal_line(height, n);
+            if (tmp > max) {
+                max = tmp;
+            }
+        }
+        return max;
+    }
+};
+

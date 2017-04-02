@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int lengthOfLastWord(const char *s) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int count = 0;
+        int state = 0;
+        while (*s) {
+            switch (state) {
+            case 0:
+                if (*s != ' ') {
+                    ++count;
+                } else {
+                    state = 1;
+                }
+                break;
+            case 1:
+                if (*s != ' ') {
+                    state = 0;
+                    count = 1;
+                }
+            }
+            ++s;
+        }
+        return count;
+    }
+};

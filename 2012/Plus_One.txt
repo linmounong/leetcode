@@ -1,0 +1,22 @@
+class Solution {
+public:
+    vector<int> plusOne(vector<int> &digits) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int carry = 1;
+        for (int i = digits.size() - 1; i >= 0 && carry; --i) {
+            digits[i] += carry;
+            carry = digits[i] / 10;
+            digits[i] %= 10;
+        }
+        if (carry) {
+            vector<int> v;
+            v.push_back(1);
+            for (int i = 0; i < digits.size(); ++i) {
+                v.push_back(digits[i]);
+            }
+            return v;
+        }
+        return digits;
+    }
+};

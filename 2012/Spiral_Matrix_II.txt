@@ -1,0 +1,38 @@
+class Solution {
+public:
+    vector<vector<int> > generateMatrix(int n) {
+// Start typing your C/C++ solution below
+// DO NOT write int main() function
+        int i = 1;
+        int x = 0, y = 0;
+        vector<vector<int> > matrix(n, vector<int>(n));
+        int count = n * n;
+        --n;
+        while (i <= count) {
+            if (n == 0) {
+                matrix[x][y] = i;
+                break;
+            }
+            for (int j = 0; i <= count && j < n; ++j, ++i) {
+                matrix[x][y] = i;
+                ++y;
+            }
+            for (int j = 0; i <= count && j < n; ++j, ++i) {
+                matrix[x][y] = i;
+                ++x;
+            }
+            for (int j = 0; i <= count && j < n; ++j, ++i) {
+                matrix[x][y] = i;
+                --y;
+            }
+            for (int j = 0; i <= count && j < n; ++j, ++i) {
+                matrix[x][y] = i;
+                --x;
+            }
+            n -= 2;
+            ++x;
+            ++y;
+        }
+        return matrix;
+    }
+};
